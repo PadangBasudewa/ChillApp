@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+:root {
+  --font-lato: "Lato", sans-serif;
+}
+
+/* Reset ringan */
+body {
+  margin: 0;
+  font-family: var(--font-lato);
+  background: #181a1cd6;
+}
+
+* {
+  box-sizing: border-box;
+}
