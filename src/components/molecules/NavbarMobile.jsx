@@ -2,8 +2,10 @@ import { FaUserCircle, FaChevronDown } from "react-icons/fa";
 import navLogo from "../../assets/images/vector-mobile-navbar.png";
 import logoDesktop from "../../assets/images/logo-desktop.png";
 import ProfileDropdown from "./ProfileDropdown";
+import { useNavigate } from "react-router-dom";
 
 export default function NavbarMobile() {
+  const navigate = useNavigate();
   return (
     <nav className="flex justify-between items-center px-4 py-4 md:px-25 md:py-6 bg-[#181A1C] md:fixed md:top-0 md:left-0 md:w-full md:z-100 ">
       {/* Left menu */}
@@ -13,7 +15,10 @@ export default function NavbarMobile() {
         <img
           src={logoDesktop}
           alt="Logo Desktop"
-          className="hidden md:block w-24"
+          className="hidden md:block w-24 hover:cursor-pointer"
+          onClick={() => {
+            navigate("/home");
+          }}
         />
 
         <button>Series</button>

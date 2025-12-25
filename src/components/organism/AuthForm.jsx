@@ -159,7 +159,7 @@ export default function AuthForm({ mode }) {
       return;
     }
 
-    // simpan session login (pakai sesuai kode kamu)
+    // simpan session login
     localStorage.setItem("currentUser", JSON.stringify(foundUser));
 
     toast.success("Login berhasil 🎉");

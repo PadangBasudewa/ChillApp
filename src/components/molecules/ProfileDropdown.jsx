@@ -5,6 +5,7 @@ import {
   FaSignOutAlt,
   FaUserCircle,
   FaChevronDown,
+  FaArchive,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
@@ -55,6 +56,14 @@ export default function ProfileDropdown() {
         >
           <button className="flex items-center gap-3 px-4 py-2 text-white hover:bg-gray-800 w-full text-sm md:text-base hover:text-blue-600 ">
             <FaUser /> Profil Saya
+          </button>
+          <button
+            onClick={() => {
+              navigate("/dashboard");
+            }}
+            className="flex items-center gap-3 px-4 py-2 text-white hover:bg-gray-800 w-full text-sm md:text-base hover:text-blue-600 "
+          >
+            <FaArchive /> Dashboard
           </button>
 
           <button className="flex items-center gap-3 px-4 py-2 text-white hover:bg-gray-800 w-full text-sm md:text-base hover:text-blue-600">
