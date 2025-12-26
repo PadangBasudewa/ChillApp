@@ -1,11 +1,14 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useEffect } from "react";
 import NavbarMobile from "../components/molecules/NavbarMobile";
 import Footer from "../components/organism/Footer";
 import FilmFormModal from "../components/organism/FilmFormModal";
 import toast from "react-hot-toast";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
+import ConfirmDeleteModal from "../components/organism/ConfirmDeleteModal";
 
 function DashboardFilm() {
+  const [confirmDelete, setConfirmDelete] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [films, setFilms] = useState([]);
   const [editingIndex, setEditingIndex] = useState(null);
@@ -50,7 +53,9 @@ function DashboardFilm() {
     >
       <NavbarMobile />
       <div
-        className={`${openModal ? "blur-sm" : ""} transition-all duration-300`}
+        className={`${
+          openModal || confirmDelete !== null ? "blur-sm" : ""
+        } transition-all duration-300`}
       >
         <main className="px-4 md:px-24 py-8 flex-1">
           <div className="max-w-screen-2xl mx-auto">
@@ -106,7 +111,7 @@ function DashboardFilm() {
                       </button>
 
                       <button
-                        onClick={() => handleDeleteFilm(index)}
+                        onClick={() => setConfirmDelete(index)}
                         className="bg-black/60 hover:bg-red-600 p-1.5 md:p-2 rounded-full text-xs md:text-sm transition"
                         title="Hapus"
                       >
@@ -132,6 +137,15 @@ function DashboardFilm() {
           onSubmited={handleAddFilm}
           initialData={editingIndex !== null ? films[editingIndex] : null}
           editIndex={editingIndex}
+        />
+      )}
+      {confirmDelete !== null && (
+        <ConfirmDeleteModal
+          onClose={() => setConfirmDelete(null)}
+          onConfirm={() => {
+            handleDeleteFilm(confirmDelete);
+            setConfirmDelete(null);
+          }}
         />
       )}
 
