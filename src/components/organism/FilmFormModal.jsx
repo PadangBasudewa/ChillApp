@@ -16,7 +16,7 @@ const genres = [
   "Fantasy",
 ];
 
-function FilmFormModal({ onClose, onSubmited, initialData, editIndex }) {
+function FilmFormModal({ onClose, onSubmited, initialData, editId }) {
   const [modalRoot, setModalRoot] = useState(null);
   const [form, setForm] = useState({
     title: "",
@@ -53,9 +53,6 @@ function FilmFormModal({ onClose, onSubmited, initialData, editIndex }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // VALIDASI SEDERHANA
-    e.preventDefault();
-
     if (
       !form.title.trim() ||
       form.genre.length === 0 ||
@@ -67,14 +64,13 @@ function FilmFormModal({ onClose, onSubmited, initialData, editIndex }) {
     }
 
     const filmData = {
-      id: initialData?.id || Date.now(),
       title: form.title,
       genre: form.genre,
       rating: Number(form.rating),
       poster: form.poster,
     };
 
-    onSubmited(filmData, editIndex);
+    onSubmited(filmData, editId);
     onClose();
   };
 
@@ -168,7 +164,7 @@ function FilmFormModal({ onClose, onSubmited, initialData, editIndex }) {
         </form>
       </div>
     </div>,
-    modalRoot
+    modalRoot,
   );
 }
 

@@ -8,9 +8,15 @@ import { useState } from "react";
 import { registerSchema, loginSchema } from "../../schemas/authSchema";
 import { z } from "zod";
 import toast from "react-hot-toast";
+import { useUserStore } from "../../store/useUserStore";
+import { useNavigate } from "react-router-dom";
 
 export default function AuthForm({ mode }) {
   const isRegister = mode === "register";
+
+  const registerUser = useUserStore((state) => state.register);
+  const loginUser = useUserStore((state) => state.login);
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     username: "",
@@ -104,14 +110,15 @@ export default function AuthForm({ mode }) {
         return;
       }
 
-      const users = JSON.parse(localStorage.getItem("users") || "[]");
-
-      users.push({
+      const resultRegister = registerUser({
         username: form.username,
         password: form.password,
       });
 
-      localStorage.setItem("users", JSON.stringify(users));
+      if (resultRegister.error) {
+        toast.error(resultRegister.error);
+        return;
+      }
 
       toast.success("Pendaftaran berhasil!");
 
@@ -140,16 +147,13 @@ export default function AuthForm({ mode }) {
       return;
     }
 
-    // cek user di localStorage
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-    const foundUser = users.find((u) => u.username === form.username);
+    const resultLogin = loginUser({
+      username: form.username,
+      password: form.password,
+    });
 
-    if (!foundUser || foundUser.password !== form.password) {
-      setErrors({
-        general: "Username atau password salah",
-      });
-      // toast.error("Username atau password salah");
-      // hilangkan otomatis setelah 2.5s
+    if (resultLogin.error) {
+      setErrors({ general: resultLogin.error });
       setTimeout(() => {
         setErrors((prev) => ({
           ...prev,
@@ -159,14 +163,13 @@ export default function AuthForm({ mode }) {
       return;
     }
 
-    // simpan session login
-    localStorage.setItem("currentUser", JSON.stringify(foundUser));
-
     toast.success("Login berhasil 🎉");
+    console.log("navigating...");
+    navigate("/home");
 
-    setTimeout(() => {
-      window.location.href = "/home";
-    }, 900); // 300ms cukup biar toast muncul
+    // setTimeout(() => {
+    //   navigate("/home");
+    // }, 800);
   };
 
   return (

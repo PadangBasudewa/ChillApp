@@ -6,44 +6,37 @@ import FilmFormModal from "../components/organism/FilmFormModal";
 import toast from "react-hot-toast";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 import ConfirmDeleteModal from "../components/organism/ConfirmDeleteModal";
+import { useFilmStore } from "../store/useFilmStore";
 
 function DashboardFilm() {
   const [confirmDelete, setConfirmDelete] = useState(null);
   const [openModal, setOpenModal] = useState(false);
-  const [films, setFilms] = useState([]);
-  const [editingIndex, setEditingIndex] = useState(null);
+  const [editingId, setEditingId] = useState(null);
 
-  useEffect(() => {
-    const storedFilms = JSON.parse(localStorage.getItem("films") || "[]");
-    setFilms(storedFilms);
-  }, []);
+  const films = useFilmStore((state) => state.films);
+  const addFilm = useFilmStore((state) => state.addFilm);
+  const updateFilm = useFilmStore((state) => state.updateFilm);
+  const deleteFilm = useFilmStore((state) => state.deleteFilm);
+  const editingFilm =
+    editingId !== null ? films.find((film) => film.id === editingId) : null;
 
-  const handleAddFilm = (filmData, editIndex) => {
-    let updatedFilms = [...films];
-
-    if (editIndex !== null) {
-      // ✏️ EDIT
-      updatedFilms[editIndex] = filmData;
+  const handleAddFilm = (filmData, editId) => {
+    if (editId !== null) {
+      updateFilm(editId, filmData);
       toast.success("Film berhasil diperbarui!");
     } else {
-      // ➕ ADD
-      updatedFilms.push(filmData);
+      addFilm(filmData);
       toast.success("Film berhasil ditambahkan!");
     }
-
-    setFilms(updatedFilms);
-    localStorage.setItem("films", JSON.stringify(updatedFilms));
   };
 
-  const handleEditFilm = (index) => {
-    setEditingIndex(index);
+  const handleEditFilm = (id) => {
+    setEditingId(id);
     setOpenModal(true);
   };
 
-  const handleDeleteFilm = (index) => {
-    const updatedFilms = films.filter((_, i) => i !== index);
-    setFilms(updatedFilms);
-    localStorage.setItem("films", JSON.stringify(updatedFilms));
+  const handleDeleteFilm = (id) => {
+    deleteFilm(id);
     toast.success("Film berhasil dihapus");
   };
 
@@ -75,9 +68,9 @@ function DashboardFilm() {
               </button>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-              {films.map((film, index) => (
+              {films.map((film) => (
                 <div
-                  key={index}
+                  key={film.id}
                   className="bg-[#202225] rounded-lg overflow-hidden relative group"
                 >
                   <div className="relative">
@@ -103,7 +96,7 @@ function DashboardFilm() {
                     </p>
                     <div className="md:absolute md:bottom-2 md:right-2 flex gap-3 pt-1.5">
                       <button
-                        onClick={() => handleEditFilm(index)}
+                        onClick={() => handleEditFilm(film.id)}
                         className="bg-black/60 hover:bg-blue-600 p-1.5 md:p-2 rounded-full text-xs md:text-sm transition"
                         title="Edit"
                       >
@@ -111,7 +104,7 @@ function DashboardFilm() {
                       </button>
 
                       <button
-                        onClick={() => setConfirmDelete(index)}
+                        onClick={() => setConfirmDelete(film.id)}
                         className="bg-black/60 hover:bg-red-600 p-1.5 md:p-2 rounded-full text-xs md:text-sm transition"
                         title="Hapus"
                       >
@@ -132,11 +125,11 @@ function DashboardFilm() {
         <FilmFormModal
           onClose={() => {
             setOpenModal(false);
-            setEditingIndex(null);
+            setEditingId(null);
           }}
           onSubmited={handleAddFilm}
-          initialData={editingIndex !== null ? films[editingIndex] : null}
-          editIndex={editingIndex}
+          initialData={editingFilm}
+          editId={editingId}
         />
       )}
       {confirmDelete !== null && (
