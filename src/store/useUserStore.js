@@ -8,6 +8,8 @@ export const useUserStore = create(
       currentUser: null,
       selectedPlan: null,
       _hasHydrated: false,
+      selectedPlan: null,
+      selectedPaymentMethod: null,
 
       setHasHydrated: (state) => {
         set({ _hasHydrated: state });
@@ -16,6 +18,11 @@ export const useUserStore = create(
       setSelectedPlan: (plan) => {
         set({ selectedPlan: plan });
       },
+
+       setSelectedPaymentMethod: (method) => {
+        set({ selectedPaymentMethod: method });
+      },
+
 
       register: ({ username, password }) => {
         const existingUser = get().users.find((u) => u.username === username);

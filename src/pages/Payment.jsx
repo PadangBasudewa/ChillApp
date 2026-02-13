@@ -5,14 +5,24 @@ import { useUserStore } from "../store/useUserStore";
 import bca from "../assets/bca.svg";
 import visa from "../assets/visa.svg";
 import mastercard from "../assets/mastercard.svg";
+import toast from "react-hot-toast";
+import { useEffect } from "react";
 
 function Payment() {
   const selectedPlan = useUserStore((s) => s.selectedPlan);
   const navigate = useNavigate();
+  const selectedPaymentMethod = useUserStore((s) => s.selectedPaymentMethod);
+  const setSelectedPaymentMethod = useUserStore(
+    (s) => s.setSelectedPaymentMethod,
+  );
 
   if (!selectedPlan) {
     return <Navigate to="/subscription" />;
   }
+
+  useEffect(() => {
+    setSelectedPaymentMethod(null);
+  }, []);
 
   const totalPayment = selectedPlan.price + 3000;
 
@@ -91,7 +101,11 @@ function Payment() {
 
                 <div className="space-y-3">
                   <div className="border border-gray-600 rounded-lg p-4 flex items-center gap-3 cursor-pointer hover:border-white transition">
-                    <input type="radio" name="payment" />
+                    <input
+                      onChange={() => setSelectedPaymentMethod("card")}
+                      type="radio"
+                      name="payment"
+                    />
                     <img src={visa} alt="Visa" className="w-10 h-6 bg-white" />
                     <img
                       src={mastercard}
@@ -102,7 +116,11 @@ function Payment() {
                   </div>
 
                   <div className="border border-gray-600 rounded-lg p-4 flex items-center gap-3 cursor-pointer hover:border-white transition">
-                    <input type="radio" name="payment" />
+                    <input
+                      onChange={() => setSelectedPaymentMethod("bca")}
+                      type="radio"
+                      name="payment"
+                    />
                     <img src={bca} alt="BCA" className="w-10 h-6 bg-white" />
                     <span>BCA Virtual Account</span>
                   </div>
@@ -153,7 +171,16 @@ function Payment() {
                   </div>
                 </div>
 
-                <button className="mt-6 bg-[#09147A] hover:bg-blue-700 transition px-8 py-2 rounded-full font-semibold cursor-pointer">
+                <button
+                  onClick={() => {
+                    if (!selectedPaymentMethod) {
+                      toast.error("Pilih metode pembayaran dulu");
+                      return;
+                    }
+                    navigate("/detailpayment");
+                  }}
+                  className="mt-6 bg-[#09147A] hover:bg-blue-700 transition px-8 py-2 rounded-full font-semibold cursor-pointer"
+                >
                   Bayar
                 </button>
               </div>

@@ -9,6 +9,7 @@ import Profile from "./pages/Profile";
 import Subscription from "./pages/Subscription";
 import Payment from "./pages/Payment";
 import ScrollToTop from "./util/ScrollToTop";
+import DetailPayment from "./pages/DetailPayment";
 
 function App() {
   return (
@@ -56,6 +57,15 @@ function App() {
             <ProtectedRoute>
               <ScrollToTop />
               <Payment />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/detailpayment"
+          element={
+            <ProtectedRoute>
+              <ScrollToTop />
+              <DetailPayment />
             </ProtectedRoute>
           }
         />
