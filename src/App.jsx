@@ -6,6 +6,9 @@ import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./util/ProtectedRoute";
 import DashboardFilm from "./pages/DashboardFilm";
 import Profile from "./pages/Profile";
+import Subscription from "./pages/Subscription";
+import Payment from "./pages/Payment";
+import ScrollToTop from "./util/ScrollToTop";
 
 function App() {
   return (
@@ -36,6 +39,23 @@ function App() {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/subscription"
+          element={
+            <ProtectedRoute>
+              <Subscription />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/payment"
+          element={
+            <ProtectedRoute>
+              <ScrollToTop />
+              <Payment />
             </ProtectedRoute>
           }
         />

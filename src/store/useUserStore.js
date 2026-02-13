@@ -6,10 +6,15 @@ export const useUserStore = create(
     (set, get) => ({
       users: [],
       currentUser: null,
+      selectedPlan: null,
       _hasHydrated: false,
 
       setHasHydrated: (state) => {
         set({ _hasHydrated: state });
+      },
+
+      setSelectedPlan: (plan) => {
+        set({ selectedPlan: plan });
       },
 
       register: ({ username, password }) => {

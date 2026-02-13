@@ -81,7 +81,10 @@ export default function ProfileDropdown() {
             <FaArchive /> Dashboard
           </button>
 
-          <button className="flex items-center gap-3 px-4 py-2 text-white hover:bg-gray-800 w-full text-sm md:text-base hover:text-blue-600">
+          <button
+            onClick={() => navigate("/subscription")}
+            className="flex items-center gap-3 px-4 py-2 text-white hover:bg-gray-800 w-full text-sm md:text-base hover:text-blue-600"
+          >
             <FaStar /> Ubah Premium
           </button>
 

@@ -6,8 +6,9 @@ import { useState, useEffect, use } from "react";
 import { useFilmStore } from "../store/useFilmStore";
 import { useUserStore } from "../store/useUserStore";
 import { toast } from "react-hot-toast";
-import { set, z } from "zod";
+import { z } from "zod";
 import { FaUserCircle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,6 +21,8 @@ function Profile() {
     username: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (currentUser) {
@@ -183,7 +186,10 @@ function Profile() {
 
                 {/* Button */}
                 <div className="mt-2 flex justify-end">
-                  <button className="bg-[#2F3334] hover:bg-gray-600 transition px-5 py-2 rounded-full text-sm">
+                  <button
+                    onClick={() => navigate("/subscription")}
+                    className="bg-[#2F3334] hover:bg-gray-600 transition px-5 py-2 rounded-full text-sm"
+                  >
                     Mulai Berlangganan
                   </button>
                 </div>
