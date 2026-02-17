@@ -20,12 +20,18 @@ function DashboardFilm() {
   const editingFilm =
     editingId !== null ? films.find((film) => film.id === editingId) : null;
 
-  const handleAddFilm = (filmData, editId) => {
+  const fetchFilms = useFilmStore((state) => state.fetchFilms);
+
+  useEffect(() => {
+    fetchFilms();
+  }, []);
+
+  const handleAddFilm = async (filmData, editId) => {
     if (editId !== null) {
-      updateFilm(editId, filmData);
+      await updateFilm(editId, filmData);
       toast.success("Film berhasil diperbarui!");
     } else {
-      addFilm(filmData);
+      await addFilm(filmData);
       toast.success("Film berhasil ditambahkan!");
     }
   };
@@ -92,7 +98,9 @@ function DashboardFilm() {
                     </h3>
 
                     <p className="text-[10px] md:text-xs text-gray-400 line-clamp-1">
-                      {film.genre.join(", ")}
+                      {Array.isArray(film.genre)
+                        ? film.genre.join(", ")
+                        : film.genre || "-"}
                     </p>
                     <div className="md:absolute md:bottom-2 md:right-2 flex gap-3 pt-1.5">
                       <button

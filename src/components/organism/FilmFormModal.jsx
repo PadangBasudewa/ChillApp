@@ -23,6 +23,7 @@ function FilmFormModal({ onClose, onSubmited, initialData, editId }) {
     genre: [],
     rating: "",
     poster: "",
+    category: "",
   });
 
   // 🔥 pastikan modal-root sudah ada di DOM
@@ -37,6 +38,7 @@ function FilmFormModal({ onClose, onSubmited, initialData, editId }) {
         genre: initialData.genre,
         rating: initialData.rating,
         poster: initialData.poster,
+        category: initialData.category || "",
       });
     }
   }, [initialData]);
@@ -57,7 +59,8 @@ function FilmFormModal({ onClose, onSubmited, initialData, editId }) {
       !form.title.trim() ||
       form.genre.length === 0 ||
       !form.rating ||
-      !form.poster.trim()
+      !form.poster.trim() ||
+      !form.category
     ) {
       toast.error("Semua field wajib diisi!");
       return;
@@ -68,6 +71,7 @@ function FilmFormModal({ onClose, onSubmited, initialData, editId }) {
       genre: form.genre,
       rating: Number(form.rating),
       poster: form.poster,
+      category: form.category,
     };
 
     onSubmited(filmData, editId);
@@ -124,6 +128,21 @@ function FilmFormModal({ onClose, onSubmited, initialData, editId }) {
               ))}
             </div>
           </div>
+
+          <select
+            required
+            name="category"
+            value={form.category}
+            onChange={(e) => setForm({ ...form, category: e.target.value })}
+            className="w-full p-2 bg-[#2A2D31] rounded"
+          >
+            <option value="" disabled>
+              Pilih Category
+            </option>
+            <option value="TOP_RATING">Top Rating</option>
+            <option value="TRENDING">Trending</option>
+            <option value="NEW_RELEASE">Episode Baru</option>
+          </select>
 
           <input
             type="number"

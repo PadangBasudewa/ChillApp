@@ -10,17 +10,16 @@ export default function CarouselSection({ title, items = [] }) {
       </h2>
 
       {/* ================= MOBILE ================= */}
-      <div className="md:hidden scrollbar-hide">
-        <div className="flex gap-3 w-max pr-10">
-          {items.map((item, i) => (
+      <div className="md:hidden flex gap-4 overflow-x-auto scrollbar-hide pb-2">
+        {items.map((item, i) => (
+          <div key={i} className="min-w-[140px] shrink-0">
             <MediaCard
-              key={i}
               image={item.image}
               badge={item.badge}
               variant={item.variant}
             />
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
 
       {/* ================= DESKTOP ================= */}
@@ -51,7 +50,7 @@ export default function CarouselSection({ title, items = [] }) {
           </button>
 
           {/* GRID 4 ITEMS (full visible) */}
-          <div className="grid grid-cols-5 gap-5 px-5">
+          <div className="grid grid-cols-5 gap-4 px-4">
             {items.map((item, i) => (
               <MediaCard
                 key={i}
