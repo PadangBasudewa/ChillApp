@@ -20,9 +20,12 @@ export default function Home() {
     .sort((a, b) => b.createdAt - a.createdAt)
     .slice(0, 5)
     .map((film) => ({
+      id: film.id,
       image: film.poster,
       badge: "Top 10",
       variant: "top10",
+      title: film.title,
+      rating: film.rating,
     }));
 
   const filmTrending = films
@@ -30,9 +33,12 @@ export default function Home() {
     .sort((a, b) => b.createdAt - a.createdAt)
     .slice(0, 5)
     .map((film) => ({
+      id: film.id,
       image: film.poster,
       badge: "Top 10",
       variant: "top10",
+      title: film.title,
+      rating: film.rating,
     }));
 
   const rilisBaru = films
@@ -40,9 +46,12 @@ export default function Home() {
     .sort((a, b) => b.createdAt - a.createdAt)
     .slice(0, 5)
     .map((film) => ({
+      id: film.id,
       image: film.poster,
       badge: "Episode Baru",
       variant: "episode",
+      title: film.title,
+      rating: film.rating,
     }));
 
   return (

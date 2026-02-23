@@ -10,6 +10,7 @@ import Subscription from "./pages/Subscription";
 import Payment from "./pages/Payment";
 import ScrollToTop from "./util/ScrollToTop";
 import DetailPayment from "./pages/DetailPayment";
+import MovieDetail from "./pages/MovieDetail";
 
 function App() {
   return (
@@ -66,6 +67,16 @@ function App() {
             <ProtectedRoute>
               <ScrollToTop />
               <DetailPayment />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/movie/:id"
+          element={
+            <ProtectedRoute>
+              <ScrollToTop />
+              <MovieDetail />
             </ProtectedRoute>
           }
         />

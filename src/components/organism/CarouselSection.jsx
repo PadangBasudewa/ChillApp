@@ -14,9 +14,12 @@ export default function CarouselSection({ title, items = [] }) {
         {items.map((item, i) => (
           <div key={i} className="min-w-[140px] shrink-0">
             <MediaCard
+              id={item.id}
               image={item.image}
               badge={item.badge}
               variant={item.variant}
+              title={item.title}
+              rating={item.rating}
             />
           </div>
         ))}
@@ -54,9 +57,12 @@ export default function CarouselSection({ title, items = [] }) {
             {items.map((item, i) => (
               <MediaCard
                 key={i}
+                id={item.id}
                 image={item.image}
                 badge={item.badge}
                 variant={item.variant}
+                title={item.title}
+                rating={item.rating}
                 continuedesktop="continueDesktop"
               />
             ))}
