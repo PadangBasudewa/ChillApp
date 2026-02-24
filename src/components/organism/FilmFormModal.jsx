@@ -24,6 +24,8 @@ function FilmFormModal({ onClose, onSubmited, initialData, editId }) {
     rating: "",
     poster: "",
     category: "",
+    synopsis: "",
+    trailer: "",
   });
 
   // 🔥 pastikan modal-root sudah ada di DOM
@@ -39,6 +41,8 @@ function FilmFormModal({ onClose, onSubmited, initialData, editId }) {
         rating: initialData.rating,
         poster: initialData.poster,
         category: initialData.category || "",
+        synopsis: initialData.synopsis || "",
+        trailer: initialData.trailer || "",
       });
     }
   }, [initialData]);
@@ -60,7 +64,9 @@ function FilmFormModal({ onClose, onSubmited, initialData, editId }) {
       form.genre.length === 0 ||
       !form.rating ||
       !form.poster.trim() ||
-      !form.category
+      !form.category ||
+      !form.synopsis.trim() ||
+      !form.trailer.trim()
     ) {
       toast.error("Semua field wajib diisi!");
       return;
@@ -72,6 +78,8 @@ function FilmFormModal({ onClose, onSubmited, initialData, editId }) {
       rating: Number(form.rating),
       poster: form.poster,
       category: form.category,
+      synopsis: form.synopsis,
+      trailer: form.trailer,
     };
 
     onSubmited(filmData, editId);
@@ -82,7 +90,7 @@ function FilmFormModal({ onClose, onSubmited, initialData, editId }) {
 
   return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 text-white"
+      className="fixed inset-0 z-999 flex items-center justify-center bg-black/60 text-white overflow-y-auto p-4"
       onClick={onClose}
     >
       <div
@@ -101,7 +109,7 @@ function FilmFormModal({ onClose, onSubmited, initialData, editId }) {
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="text"
-            placeholder="Contoh: Inception"
+            placeholder="Title film"
             className="w-full px-3 py-2 rounded bg-[#2f3136]"
             value={form.title}
             onChange={(e) => setForm({ ...form, title: e.target.value })}
@@ -145,6 +153,15 @@ function FilmFormModal({ onClose, onSubmited, initialData, editId }) {
           </select>
 
           <input
+            type="text"
+            placeholder="Synopsis film"
+            className="w-full px-3 py-2 rounded bg-[#2f3136]"
+            value={form.synopsis}
+            onChange={(e) => setForm({ ...form, synopsis: e.target.value })}
+            required
+          />
+
+          <input
             type="number"
             step="0.1"
             min="0"
@@ -163,6 +180,14 @@ function FilmFormModal({ onClose, onSubmited, initialData, editId }) {
             value={form.poster}
             onChange={(e) => setForm({ ...form, poster: e.target.value })}
             required
+          />
+
+          <input
+            type="url"
+            placeholder="YouTube Embed URL (optional)"
+            className="w-full px-3 py-2 rounded bg-[#2f3136]"
+            value={form.trailer}
+            onChange={(e) => setForm({ ...form, trailer: e.target.value })}
           />
 
           <div className="flex justify-end gap-3">
